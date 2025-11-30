@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Méditation</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<header id="site-header">
+    <div class="site-title">La Petite Orante Catholique</div>
+    <div class="site-subtitle">✨ Méditations & Prières quotidiennes ✨</div>
+    <div class="site-description">
+        Méditation de l’Évangile du jour et des lectures de la messe catholique.<br>
+        Comprendre les lectures pour vivre leurs enseignements.
+    </div>
+</header>
+
+<nav id="site-menu">
+    <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="meditations.html">Méditations</a></li>
+        <li><a href="notes.html">Notes</a></li>
+        <li><a href="archives.html">Archives</a></li>
+        <li><a href="videos.html">Vidéos</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+
+<div id="layout">
+
+    <!-- CONTENU CENTRAL -->
+    <main id="content">
+        <article id="meditation-article">
+            <h1 id="meditation-title"></h1>
+            <div id="meditation-date"></div>
+            <div id="meditation-body"></div>
+        </article>
+
+        <div id="article-nav">
+            <a id="prev-article" href="#"></a>
+            <a id="next-article" href="#"></a>
+        </div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+
+        <section class="widget">
+            <h3>Recherche</h3>
+            <input type="text" id="searchBox" placeholder="Rechercher...">
+        </section>
+
+        <section class="widget" id="archives-widget">
+            <h3>Archives</h3>
+            <ul id="archives-list"></ul>
+        </section>
+
+        <section class="widget" id="categories-widget">
+            <h3>Catégories</h3>
+            <ul id="categories-list"></ul>
+        </section>
+
+        <section class="widget" id="tags-widget">
+            <h3>Mots-clés</h3>
+            <div id="tag-cloud"></div>
+        </section>
+
+    </aside>
+
+</div>
+
+<footer id="site-footer">
+    © La Petite Orante — Tous droits réservés.
+</footer>
+
+<script>
+/* ——————————————————————————————
+   CHARGEMENT D’UNE MÉDITATION
+—————————————————————————————— */
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get("f");
+
+    if (!file) return;
+
+    /* Chargement du fichier HTML */
+    const response = await fetch("meditations/" + file);
+    const text = await response.text();
+
+    document.getElementById("meditation-body").innerHTML = text;
+
+    /* Titre = première ligne trouvée dans le fichier */
+    const firstLine = text.split("\n")[0].replace(/<[^>]*>/g, "").trim();
+    document.getElementById("meditation-title").innerText = firstLine;
+
+    /* Date extraite du nom du fichier */
+    const dateStr = file.replace(".html", "");
+    document.getElementById("meditation-date").innerText = formatDate(dateStr);
+
+    /* Navigation précédent / suivant */
+    const index = meditationFiles.indexOf(file);
+
+    if (index > 0) {
+        const prev = meditationFiles[index - 1];
+        document.getElementById("prev-article").innerText = "← Méditation précédente";
+        document.getElementById("prev-article").href = "meditation.html?f=" + prev;
+    }
+
+    if (index < meditationFiles.length - 1) {
+        const next = meditationFiles[index + 1];
+        document.getElementById("next-article").innerText = "Méditation suivante →";
+        document.getElementById("next-article").href = "meditation.html?f=" + next;
+    }
+});
+</script>
+
+</body>
+</html>
