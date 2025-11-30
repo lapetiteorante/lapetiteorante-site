@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Méditations</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<header id="site-header">
+    <div class="site-title">La Petite Orante Catholique</div>
+    <div class="site-subtitle">✨ Méditations & Prières quotidiennes ✨</div>
+    <div class="site-description">
+        Toutes les méditations, classées par date.
+    </div>
+</header>
+
+<nav id="site-menu">
+    <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="meditations.html" class="active">Méditations</a></li>
+        <li><a href="notes.html">Notes</a></li>
+        <li><a href="archives.html">Archives</a></li>
+        <li><a href="videos.html">Vidéos</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+
+<div id="layout">
+
+    <!-- CONTENU CENTRAL -->
+    <main id="content">
+        <h1>Toutes les méditations</h1>
+        <p>Classement automatique du plus récent au plus ancien :</p>
+
+        <ul id="meditations-list" class="post-list"></ul>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+        <section class="widget">
+            <h3>Recherche</h3>
+            <input type="text" id="searchBox" placeholder="Rechercher...">
+        </section>
+
+        <section class="widget" id="categories-widget">
+            <h3>Catégories</h3>
+            <ul id="categories-list"></ul>
+        </section>
+
+        <section class="widget" id="tags-widget">
+            <h3>Mots-clés</h3>
+            <div id="tag-cloud"></div>
+        </section>
+    </aside>
+
+</div>
+
+<footer id="site-footer">
+    © La Petite Orante — Tous droits réservés.
+</footer>
+
+
+
+<script>
+/* ————————————————————————————
+   MÉDITATIONS — liste complète
+———————————————————————————— */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const list = document.getElementById("meditations-list");
+
+    meditationFiles
+        .sort()
+        .reverse() // du plus récent au plus ancien
+        .forEach(file => {
+
+            const date = file.replace(".html", "");
+            const formatted = formatDate(date);
+
+            const li = document.createElement("li");
+            li.className = "post-item";
+
+            li.innerHTML = `
+                <a href="meditation.html?f=${file}">
+                    <span class="post-title">${formatted}</span>
+                </a>
+            `;
+
+            list.appendChild(li);
+        });
+
+});
+</script>
+
+</body>
+</html>
