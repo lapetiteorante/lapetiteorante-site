@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archives</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<header id="site-header">
+    <div class="site-title">La Petite Orante Catholique</div>
+    <div class="site-subtitle">✨ Méditations & Prières quotidiennes ✨</div>
+    <div class="site-description">
+        Retrouver chaque méditation classée par mois et par année.
+    </div>
+</header>
+
+<nav id="site-menu">
+    <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="meditations.html">Méditations</a></li>
+        <li><a href="notes.html">Notes</a></li>
+        <li><a href="archives.html" class="active">Archives</a></li>
+        <li><a href="videos.html">Vidéos</a></li>
+        <li><a href="apropos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+
+<div id="layout">
+
+    <!-- CONTENU CENTRAL -->
+    <main id="content">
+        <h1>Archives</h1>
+        <p>Parcourez les méditations par année et par mois :</p>
+
+        <div id="archives-container"></div>
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+        <section class="widget">
+            <h3>Recherche</h3>
+            <input type="text" id="searchBox" placeholder="Rechercher...">
+        </section>
+
+        <section class="widget" id="categories-widget">
+            <h3>Catégories</h3>
+            <ul id="categories-list"></ul>
+        </section>
+
+        <section class="widget" id="tags-widget">
+            <h3>Mots-clés</h3>
+            <div id="tag-cloud"></div>
+        </section>
+    </aside>
+
+</div>
+
+<footer id="site-footer">
+    © La Petite Orante — Tous droits réservés.
+</footer>
+
+
+<script>
+/* ————————————————————————————
+   ARCHIVES : construction dynamique
+———————————————————————————— */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const container = document.getElementById("archives-container");
+
+    // Objet : archives regroupées par année et mois
+    const archives = {};
+
+    meditationFiles.forEach(file => {
+        const name = file.replace(".html", ""); // ex : 2025-11-28
+        const [year, month] = name.split("-");
+
+        if (!archives[year]) archives[year] = {};
+        if (!archives[year][month]) archives[year][month] = [];
+
+        archives[year][month].push(file);
+    });
+
+    // Génération HTML
+    for (const year of Object.keys(archives).sort().reverse()) {
+
+        const yearBlock = document.createElement("div");
+        yearBlock.className = "archive-year";
+
+        const yearTitle = document.createElement("h2");
+        yearTitle.innerText = year;
+        yearBlock.appendChild(yearTitle);
+
+        for (const month of Object.keys(archives[year]).sort().reverse()) {
+
+            const monthBlock = document.createElement("div");
+            monthBlock.className = "archive-month";
+
+            const monthName = formatMonth(month);
+            const monthTitle = document.createElement("h3");
+            monthTitle.innerText = monthName + " " + year;
+            monthBlock.appendChild(monthTitle);
+
+            const list = document.createElement("ul");
+
+            archives[year][month]
+                .sort()
+                .forEach(file => {
+                    const li = document.createElement("li");
+
+                    const date = file.replace(".html", "");
+                    const formatted = formatDate(date);
+
+                    li.innerHTML =
+                        `<a href="meditation.html?f=${file}">
+                            ${formatted}
+                        </a>`;
+
+                    list.appendChild(li);
+                });
+
+            monthBlock.appendChild(list);
+            yearBlock.appendChild(monthBlock);
+        }
+
+        container.appendChild(yearBlock);
+    }
+
+});
+</script>
+
+</body>
+</html>
