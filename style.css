@@ -1,13 +1,13 @@
 /* ————————————————————————————
-      LA PETITE ORANTE — BLEU-GRIS
-      Structure Penscratch raffinée
+      LA PETITE ORANTE — STYLE DÉFINITIF
+      Bleu-gris liturgique — Penscratch raffiné
 ———————————————————————————— */
 
-/* PALETTE */
+/* PALETTE — tons priants, sobres */
 :root {
-    --blue-deep: #2f3e54;      /* bleu-gris profond, noble */
-    --blue-soft: #d9e1ea;      /* bleu-gris clair, céleste */
-    --ivory: #f9f7f2;          /* ivoire doux, parchemin */
+    --blue-deep: #435671;      /* bleu-gris profond, noble, vitrail */
+    --blue-soft: #e4ebf3;      /* bleu très clair, céleste */
+    --ivory: #faf9f5;          /* ivoire doux, parchemin sacré */
     --text-dark: #2a2a2a;
     --text-light: #555;
     --border: #c9d2db;
@@ -41,6 +41,7 @@ html {
     font-weight: bold;
     color: var(--blue-deep);
     margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
 }
 
 .site-subtitle {
@@ -98,10 +99,12 @@ html {
     margin-bottom: 1rem;
     border-left: 4px solid var(--blue-deep);
     padding-left: 0.5rem;
+    letter-spacing: 0.5px;
 }
 
+/* ARTICLES LIST */
 #latest-posts article {
-    background: white;
+    background: var(--blue-soft);
     padding: 1.2rem;
     margin-bottom: 1.4rem;
     border: 1px solid var(--border);
