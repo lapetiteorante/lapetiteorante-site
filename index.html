@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>La Petite Orante</title>
+  <style>
+    :root{color-scheme:light dark}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:0;padding:20px;max-width:900px}
+    header{border-bottom:1px solid #eee;padding-bottom:12px;margin-bottom:18px}
+    h1{margin:0;font-size:1.6rem}
+    .post{margin-bottom:18px}
+    .meta{color:#666;font-size:0.9rem}
+    a{color:#0b63c6;text-decoration:none}
+    footer{border-top:1px solid #eee;margin-top:24px;padding-top:12px;font-size:0.9rem;color:#666}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>La Petite Orante</h1>
+    <p class="meta">Méditations quotidiennes sur l’Évangile et les lectures de la messe</p>
+  </header>
+
+  <main id="content">
+    <p>Chargement des articles…</p>
+  </main>
+
+  <footer>
+    <p>© La Petite Orante — Site statique sans collecte d’adresses ni clés privées.</p>
+  </footer>
+
+  <script>
+    async function loadPosts(){
+      try{
+        const res = await fetch('posts.json',{cache:'no-store'});
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        const posts = await res.json();
+        const container = document.getElementById('content');
+        container.innerHTML = '';
+        posts.forEach(p => {
+          const el = document.createElement('article');
+          el.className = 'post';
+          el.innerHTML = `
+            <h2><a href="${p.url}">${p.title}</a></h2>
+            <div class="meta">
